@@ -19,11 +19,14 @@
         http://beej.us/guide/bgnet/
 ****************************************/
 
+int count = 0;
+
 void 
 parse_message(char *message, int len, struct operation *operation) 
 {
         printf("Get message: %s\n", message);
-        exit(0); 
+        count++;
+        if (count >= 10) exit(0); 
 }
 
 void 
