@@ -41,6 +41,7 @@ main(int argc, char ** argv)
         char* server_ip = "127.0.0.1";
         char *message = "Hello World";
         int sockfd;
+        int i;
 
         /* Command line args:
                 -p port
@@ -69,9 +70,11 @@ main(int argc, char ** argv)
         }
         printf("server_ip: %s   port: %s\n", server_ip, server_port);
 
-        sockfd = sh_client(server_ip, server_port);
+        for (i = 0; i < 10; i++) {
+                sockfd = sh_client(server_ip, server_port);
 
-        client_request(sockfd, message);
+                client_request(sockfd, message);
+        }
 
         out:
         close(sockfd);
