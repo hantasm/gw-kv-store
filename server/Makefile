@@ -1,12 +1,11 @@
 #Use the gcc compiler
 CC = gcc
-CFLAGS = -pthread
-DEPS = ../lib/linkedlist/linkedlist.o ../lib/hashtable/hashtable.o
+CFLAGS = -g
+DEPS = gwkv_ht_wrapper
 LDFLAGS =
-#Objects created by makefile
-OBJS = server-kv
+OBJS = ht-wrapper #server-kv
 WRAPPER_DEPS = gwkv_ht_wrapper.c
-WRAPPER_OBJ = ht-wrapper
+WRAPPER_OBJ = ht-wrapper murmurhash
 
 #Ensure compiling is done with all necessary dependencies
 %.o: %.c
@@ -16,15 +15,16 @@ all: $(OBJS)
 
 rebuild: clean all
 
-server-kv: gwkv_ht_wrapper.o server-kv.o
-	$(CC) $(CFLAGS) -o $@ $^ $(DEPS)
+# server-kv: ht-wrapper server-kv.c
+#	$(CC) $(CFLAGS) -o $@ $^
 
-#ht-wrapper: gwkv_ht_wrapper.c test
-#	cd ../lib/hashtable && make
-#	$(CC) $(CFLAGS) -c $(WRAPPER_DEPS)
+ht-wrapper: gwkv_ht_wrapper.c
+	cd ../lib/ && make
+	$(CC) $(CFLAGS) -c $(WRAPPER_DEPS)
 
 test:
-	cd test && make
+	cd test && make test
 
 clean:
-	@rm -f *.o $(OBJS)
+	@rm -f $(OBJS)
+.PHONY: all test
